@@ -3,13 +3,14 @@ import { useMemo, useRef, useState } from 'react';
 const navItems = [
   'لوحة التحكم',
   'الاختبارات',
-  'بنك الأسئلة',
   'أوراق العمل',
   'خطط التدريس',
   'الطلاب',
   'رفع ملف اختبار',
-  'إعدادات المدرسة',
+  'التخطيط الفصلي',
+  'الأنشطة الصفية',
   'الذكاء الاصطناعي',
+  'إعدادات المدرسة',
 ];
 
 const stats = [
@@ -40,6 +41,7 @@ const students = [
   { name: 'عبدالله علي', level: 'مستوى جيد', support: 'تدريب مكثف في الجبر' },
   { name: 'سارة محمد', level: 'مستوى ممتاز', support: 'تحديات في الهندسة' },
   { name: 'أحمد سالم', level: 'يتطلب دعم', support: 'مراجعة الكسور' },
+  { name: 'ليلى أحمد', level: 'جيد جدًا', support: 'مراجعة الأعداد والعلاقات' },
 ];
 
 const mathSymbols = ['+', '-', '×', '÷', '=', 'π', '√', '∛', '²', '³', '≤', '≥', '∠', '△', '(', ')', 'x', 'y', 'a', 'b', 'c'];
@@ -49,6 +51,27 @@ const aiPrompts = [
   'اكتب ورقة عمل عن الكسور مع إجابات مختصرة.',
   'صمم خطة علاجية لطلاب يواجهون صعوبة في المعادلات.',
   'قم بإنشاء أسئلة هندسية من المستوى المتوسط مع حلول مختصرة.',
+  'جهز خطة فصلية لموضوع المعادلات والتناسب.',
+  'اكتب استراتيجية تدريس فعالة للتعلم التعاوني في الرياضيات.',
+];
+
+const worksheetCards = [
+  { title: 'ورقة عمل 1: الكسور', type: 'أساسية', items: 12 },
+  { title: 'ورقة عمل 2: المعادلات', type: 'متوسطة', items: 10 },
+  { title: 'ورقة عمل 3: المساحات', type: 'ثانوية', items: 8 },
+];
+
+const semesterPlan = [
+  { week: 'الأسبوع 1', unit: 'الأعداد والعلاقات', task: 'تمهيد + مراجعة', status: 'مكتمل' },
+  { week: 'الأسبوع 2', unit: 'الجبر', task: 'حل المعادلات', status: 'جاري' },
+  { week: 'الأسبوع 3', unit: 'الهندسة', task: 'المثلثات', status: 'مخطط' },
+  { week: 'الأسبوع 4', unit: 'الإحصاء', task: 'الوسيط والمعدل', status: 'مستقبلي' },
+];
+
+const activities = [
+  { title: 'نشاط: أوجد العلاقة', duration: '20 دقيقة', category: 'مجموعة' },
+  { title: 'نشاط: مسابقات الأرقام', duration: '15 دقيقة', category: 'تفاعلي' },
+  { title: 'نشاط: أوصل الشكل', duration: '25 دقيقة', category: 'هندسة' },
 ];
 
 function StatCard({ label, value, tone }) {
@@ -321,6 +344,200 @@ function UploadExamView() {
   );
 }
 
+function WorksheetView() {
+  return (
+    <div className="panel full-panel">
+      <div className="panel-header">
+        <h3>أوراق العمل</h3>
+        <button className="primary-btn small-btn">إضافة ورقة</button>
+      </div>
+
+      <div className="card-grid">
+        {worksheetCards.map((card) => (
+          <div key={card.title} className="mini-card">
+            <span className="tag">{card.type}</span>
+            <h4>{card.title}</h4>
+            <p>{card.items} أسئلة</p>
+            <button className="ghost-btn small-btn">فتح</button>
+          </div>
+        ))}
+      </div>
+
+      <div className="list-stack margin-top">
+        <div className="list-item">
+          <div>
+            <strong>ورقة مراجعة نهائية</strong>
+            <p>المرحلة الأساسية • 14 سؤال</p>
+          </div>
+          <button className="secondary-btn small-btn">تعديل</button>
+        </div>
+        <div className="list-item">
+          <div>
+            <strong>ورقة تدريب منزلي</strong>
+            <p>المرحلة المتوسطة • 9 أسئلة</p>
+          </div>
+          <button className="secondary-btn small-btn">تعديل</button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function LessonPlansView() {
+  return (
+    <div className="panel full-panel">
+      <div className="panel-header">
+        <h3>خطط التدريس</h3>
+        <button className="primary-btn small-btn">إنشاء خطة</button>
+      </div>
+
+      <div className="lesson-grid">
+        {lessons.map((lesson) => (
+          <div key={lesson.title} className="lesson-card">
+            <h4>{lesson.title}</h4>
+            <p>{lesson.stage}</p>
+            <span>{lesson.duration}</span>
+            <button className="ghost-btn small-btn">تفاصيل</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function SemesterPlanView() {
+  return (
+    <div className="panel full-panel">
+      <div className="panel-header">
+        <h3>التخطيط الفصلـي</h3>
+        <button className="primary-btn small-btn">إضافة أسبوع</button>
+      </div>
+
+      <div className="table-shell">
+        <table>
+          <thead>
+            <tr>
+              <th>الأسبوع</th>
+              <th>الوحدة</th>
+              <th>المهمة</th>
+              <th>الحالة</th>
+            </tr>
+          </thead>
+          <tbody>
+            {semesterPlan.map((row) => (
+              <tr key={row.week}>
+                <td>{row.week}</td>
+                <td>{row.unit}</td>
+                <td>{row.task}</td>
+                <td><span className="status-pill">{row.status}</span></td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+function ActivitiesView() {
+  return (
+    <div className="panel full-panel">
+      <div className="panel-header">
+        <h3>الأنشطة الصفية</h3>
+        <button className="primary-btn small-btn">إضافة نشاط</button>
+      </div>
+
+      <div className="activities-grid">
+        {activities.map((activity) => (
+          <div key={activity.title} className="activity-card">
+            <span className="tag">{activity.category}</span>
+            <h4>{activity.title}</h4>
+            <p>{activity.duration}</p>
+            <button className="ghost-btn small-btn">تفعيل</button>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+function StudentsView() {
+  return (
+    <div className="panel full-panel">
+      <div className="panel-header">
+        <h3>إدارة الصف</h3>
+        <button className="primary-btn small-btn">إضافة طالب</button>
+      </div>
+
+      <div className="student-grid">
+        {students.map((student) => (
+          <div key={student.name} className="student-card">
+            <div className="student-avatar">{student.name.slice(0, 1)}</div>
+            <div>
+              <h4>{student.name}</h4>
+              <p>{student.level}</p>
+              <span>{student.support}</span>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      <div className="panel mini-panel">
+        <div className="panel-header">
+          <h3>الخطط العلاجية</h3>
+        </div>
+        <ul className="bullet-list">
+          <li>يومياً: مراجعة 10 دقائق في الكسور</li>
+          <li>أسبوعياً: اختبار قصير في الجبر</li>
+          <li>إجراءات دعم: أنشطة تفاعلية + حصص فردية</li>
+        </ul>
+      </div>
+    </div>
+  );
+}
+
+function AIView() {
+  const [selectedPrompt, setSelectedPrompt] = useState(aiPrompts[0]);
+
+  return (
+    <div className="panel full-panel">
+      <div className="panel-header">
+        <h3>الذكاء الاصطناعي للمساعدة التعليمية</h3>
+        <span className="badge">نموذج مجاني</span>
+      </div>
+
+      <div className="ai-builder">
+        <div className="field-row">
+          <label>نوع الطلب</label>
+          <select value={selectedPrompt} onChange={(e) => setSelectedPrompt(e.target.value)}>
+            {aiPrompts.map((prompt) => (
+              <option key={prompt} value={prompt}>{prompt}</option>
+            ))}
+          </select>
+        </div>
+
+        <div className="field-row">
+          <label>محتوى الأمر</label>
+          <textarea rows={6} value={selectedPrompt} onChange={(e) => setSelectedPrompt(e.target.value)} />
+        </div>
+
+        <div className="toolbar-row">
+          <button className="primary-btn">توليد</button>
+          <button className="secondary-btn">إعادة التوليد</button>
+          <button className="ghost-btn">نسخ</button>
+        </div>
+      </div>
+
+      <div className="ai-output">
+        <h4>نتيجة التوليد</h4>
+        <p>1) حل المعادلة 3x + 2 = 11 → x = 3</p>
+        <p>2) إذا كانت قاعدة المثلث 10 وارتفاعه 6، فإن مساحته = 30</p>
+        <p>3) اشرح خطوة بخطوة طريقة إيجاد ناتج الأعداد المختلطة.</p>
+      </div>
+    </div>
+  );
+}
+
 function SchoolSettingsView() {
   return (
     <div className="panel full-panel">
@@ -349,9 +566,7 @@ function SchoolSettingsView() {
 
         <div className="field-row wide-span">
           <label>الترويسة</label>
-          <textarea rows={4} defaultValue="بسم الله الرحمن الرحيم
-مدرسة النور للتعليم
-اختبارات الرياضيات - الفصل الدراسي الأول" />
+          <textarea rows={4} defaultValue={`بسم الله الرحمن الرحيم\nمدرسة النور للتعليم\nاختبارات الرياضيات - الفصل الدراسي الأول`} />
         </div>
 
         <div className="field-row wide-span">
@@ -384,13 +599,21 @@ function App() {
       case 1:
         return <DashboardView />;
       case 2:
-        return <DashboardView />;
-      case 6:
+        return <WorksheetView />;
+      case 3:
+        return <LessonPlansView />;
+      case 4:
+        return <StudentsView />;
+      case 5:
         return <UploadExamView />;
+      case 6:
+        return <SemesterPlanView />;
       case 7:
-        return <SchoolSettingsView />;
+        return <ActivitiesView />;
       case 8:
-        return <DashboardView />;
+        return <AIView />;
+      case 9:
+        return <SchoolSettingsView />;
       default:
         return <DashboardView />;
     }
