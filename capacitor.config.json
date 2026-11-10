@@ -1,0 +1,6 @@
+{
+  "appId": "com.mathteacheryemen.app",
+  "appName": "MathTeacherYemen",
+  "webDir": "dist",
+  "bundledWebRuntime": false
+}
