@@ -1,5 +1,16 @@
 import { useMemo, useState } from 'react';
 
+const navItems = [
+  'لوحة التحكم',
+  'الاختبارات',
+  'بنك الأسئلة',
+  'أوراق العمل',
+  'خطط التدريس',
+  'الطلاب',
+  'الذكاء الاصطناعي',
+  'الإعدادات',
+];
+
 const stats = [
   { label: 'الاختبارات', value: '48', tone: 'blue' },
   { label: 'أوراق العمل', value: '126', tone: 'green' },
@@ -10,25 +21,19 @@ const stats = [
 const examTypes = ['اختيار من متعدد', 'صح/خطأ', 'إكمال فراغ', 'مقابلة', 'حسابية', 'هندسية'];
 
 const questionBank = [
-  { id: 1, title: 'الجبر: المعادلات من الدرجة الأولى', grade: 'المرحلة الأساسية', type: 'حسابية', difficulty: 'متوسط', tags: ['معادلة', 'متغير'] },
-  { id: 2, title: 'المتتاليات الحسابية', grade: 'الثاني المتوسط', type: 'اختيار من متعدد', difficulty: 'سهل', tags: ['متتالية', 'نمط'] },
-  { id: 3, title: 'مساحة المثلث', grade: 'المرحلة الثانوية', type: 'هندسية', difficulty: 'صعب', tags: ['هندسة', 'مساحة'] },
-  { id: 4, title: 'المتوسط الحسابي', grade: 'الثالث المتوسط', type: 'مقابلة', difficulty: 'متوسط', tags: ['إحصاء', 'بيانات'] },
+  { id: 1, title: 'الجبر: المعادلات من الدرجة الأولى', grade: 'المرحلة الأساسية', type: 'حسابية', difficulty: 'متوسط' },
+  { id: 2, title: 'المتتاليات الحسابية', grade: 'الثاني المتوسط', type: 'اختيار من متعدد', difficulty: 'سهل' },
+  { id: 3, title: 'مساحة المثلث', grade: 'المرحلة الثانوية', type: 'هندسية', difficulty: 'صعب' },
+  { id: 4, title: 'المتوسط الحسابي', grade: 'الثالث المتوسط', type: 'مقابلة', difficulty: 'متوسط' },
 ];
 
-const lessonPlans = [
+const lessons = [
   { title: 'دروس الكسور', duration: '45 دقيقة', stage: 'المرحلة الأساسية' },
   { title: 'المتغيرات والمعادلات', duration: '60 دقيقة', stage: 'المرحلة المتوسطة' },
   { title: 'المثلثات', duration: '50 دقيقة', stage: 'المرحلة الثانوية' },
 ];
 
-const strategies = [
-  'التعلم التعاوني',
-  'العصف الذهني',
-  'حل المشكلات',
-  'التعلم القائم على الاستقصاء',
-  'التدريس المتمايز',
-];
+const strategies = ['التعلم التعاوني', 'العصف الذهني', 'حل المشكلات', 'التعلم القائم على الاستقصاء', 'التدريس المتمايز'];
 
 const students = [
   { name: 'عبدالله علي', level: 'مستوى جيد', support: 'تدريب مكثف في الجبر' },
@@ -36,12 +41,13 @@ const students = [
   { name: 'أحمد سالم', level: 'يتطلب دعم', support: 'مراجعة الكسور' },
 ];
 
-const mathButtons = ['+', '-', '×', '÷', '=', 'π', '√', '∛', '²', '³', '≤', '≥', '∠', '△', '(', ')', 'x', 'y', 'a', 'b', 'c'];
+const mathSymbols = ['+', '-', '×', '÷', '=', 'π', '√', '∛', '²', '³', '≤', '≥', '∠', '△', '(', ')', 'x', 'y', 'a', 'b', 'c'];
 
 const aiPrompts = [
-  'أنشئ اختبارًا قصيرًا في الجبر للمرحلة المتوسطة، 5 أسئلة، مستوى متوسط.',
+  'أنشئ اختبارًا قصيرًا في الجبر للمرحلة المتوسطة: 5 أسئلة، مستوى متوسط.',
   'اكتب ورقة عمل عن الكسور مع إجابات مختصرة.',
   'صمم خطة علاجية لطلاب يواجهون صعوبة في المعادلات.',
+  'قم بإنشاء أسئلة هندسية من المستوى المتوسط مع حلول مختصرة.',
 ];
 
 function StatCard({ label, value, tone }) {
@@ -66,10 +72,6 @@ function App() {
     setQuestionText((current) => `${current} ${symbol}`);
   };
 
-  const printExam = () => {
-    window.print();
-  };
-
   return (
     <div className="app-shell">
       <aside className="sidebar">
@@ -82,14 +84,11 @@ function App() {
         </div>
 
         <nav className="nav">
-          <button className="nav-item active">لوحة التحكم</button>
-          <button className="nav-item">الاختبارات</button>
-          <button className="nav-item">بنك الأسئلة</button>
-          <button className="nav-item">أوراق العمل</button>
-          <button className="nav-item">الخطط</button>
-          <button className="nav-item">الطلاب</button>
-          <button className="nav-item">الذكاء الاصطناعي</button>
-          <button className="nav-item">الإعدادات</button>
+          {navItems.map((item, index) => (
+            <button key={item} className={`nav-item ${index === 0 ? 'active' : ''}`}>
+              {item}
+            </button>
+          ))}
         </nav>
       </aside>
 
@@ -99,9 +98,12 @@ function App() {
             <p className="eyebrow">المرحلة الأساسية والثانوية</p>
             <h1>مساعد معلم الرياضيات المنهج اليمني</h1>
           </div>
+
           <div className="topbar-actions">
             <button className="ghost-btn">استعراض</button>
-            <button className="primary-btn" onClick={printExam}>طباعة</button>
+            <button className="primary-btn" onClick={() => window.print()}>
+              طباعة
+            </button>
           </div>
         </header>
 
@@ -167,6 +169,7 @@ function App() {
             <div className="panel-header">
               <h3>معاينة الاختبار</h3>
             </div>
+
             <div className="print-box">
               <div className="exam-header">
                 <h4>مدرسة الرياضيات النموذجية</h4>
@@ -185,8 +188,10 @@ function App() {
               <h3>لوحة المفاتيح الرياضية</h3>
             </div>
             <div className="math-keyboard">
-              {mathButtons.map((symbol) => (
-                <button key={symbol} className="symbol-btn" onClick={() => insertSymbol(symbol)}>{symbol}</button>
+              {mathSymbols.map((symbol) => (
+                <button key={symbol} className="symbol-btn" onClick={() => insertSymbol(symbol)}>
+                  {symbol}
+                </button>
               ))}
             </div>
           </div>
@@ -201,7 +206,9 @@ function App() {
                   <option key={prompt} value={prompt}>{prompt}</option>
                 ))}
               </select>
+
               <textarea rows={4} value={selectedPrompt} onChange={(e) => setSelectedPrompt(e.target.value)} />
+
               <div className="toolbar-row">
                 <button className="primary-btn">توليد</button>
                 <button className="ghost-btn">إعادة التوليد</button>
@@ -233,7 +240,7 @@ function App() {
               <h3>خطط التدريس</h3>
             </div>
             <div className="list-stack">
-              {lessonPlans.map((plan) => (
+              {lessons.map((plan) => (
                 <div key={plan.title} className="list-item">
                   <div>
                     <strong>{plan.title}</strong>
@@ -253,7 +260,9 @@ function App() {
             </div>
             <div className="chip-grid">
               {strategies.map((strategy) => (
-                <span key={strategy} className="chip">{strategy}</span>
+                <span key={strategy} className="chip">
+                  {strategy}
+                </span>
               ))}
             </div>
           </div>

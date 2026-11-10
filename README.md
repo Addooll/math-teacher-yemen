@@ -1,29 +1,22 @@
 # math-teacher-yemen
 
-MVP for Yemeni math teacher assistant with a ready Arabic interface.
+واجهة أولية عربية لمساعد معلم الرياضيات المنهج اليمني.
 
-Features included in this first build:
-- Arabic RTL dashboard
-- Exam builder and print preview
-- AI prompt panel
-- Question bank
-- Lesson plans
-- Classroom management overview
-- Math keyboard for symbols and formulas
-- Mobile-friendly layout
-- PWA / Capacitor-ready setup
+المميزات الحالية:
+- لوحة تحكم عربية RTL
+- منشئ اختبارات
+- معاينة وطباعة
+- بنك أسئلة
+- خطط تدريس
+- إدارة الصف
+- لوحة مفاتيح رياضية
+- دعم الهاتف المحمول
 
-## Run locally
+## التشغيل محليًا
 
 npm install
 npm run dev
 
-## Production build
+## إنشاء نسخة إنتاجية
 
 npm run build
-
-## Mobile wrapper setup
-
-npx cap init "MathTeacherYemen" "com.mathteacheryemen.app"
-npx cap add android
-npx cap sync android

@@ -5,13 +5,8 @@
 :root {
   --bg: #f4f7fb;
   --panel: #ffffff;
-  --panel-soft: #eff6ff;
   --primary: #1d4ed8;
   --primary-strong: #0f172a;
-  --accent: #10b981;
-  --warning: #f59e0b;
-  --purple: #7c3aed;
-  --text: #0f172a;
   --muted: #64748b;
   --line: #dfe7f1;
   --shadow: 0 12px 32px rgba(15, 23, 42, 0.08);
@@ -25,7 +20,7 @@ body {
   margin: 0;
   font-family: Tahoma, 'Segoe UI', sans-serif;
   background: var(--bg);
-  color: var(--text);
+  color: var(--primary-strong);
   direction: rtl;
 }
 
@@ -89,7 +84,7 @@ button {
   display: flex;
   flex-direction: column;
   gap: 10px;
-  margin-top: 14px;
+  margin-top: 18px;
 }
 
 .nav-item {
@@ -180,7 +175,7 @@ button {
 }
 
 .stat-card {
-  background: var(--panel);
+  background: #fff;
   border-radius: 18px;
   padding: 18px 18px 16px;
   box-shadow: var(--shadow);
@@ -224,7 +219,7 @@ button {
 }
 
 .panel {
-  background: var(--panel);
+  background: #fff;
   border: 1px solid var(--line);
   border-radius: 20px;
   padding: 18px;
@@ -284,7 +279,7 @@ select {
   border-radius: 12px;
   padding: 12px 14px;
   background: #fff;
-  color: var(--text);
+  color: var(--primary-strong);
   resize: vertical;
 }
 
@@ -321,7 +316,6 @@ textarea {
 .preview-body {
   min-height: 180px;
   line-height: 1.9;
-  color: var(--text);
 }
 
 .math-keyboard {
@@ -406,8 +400,8 @@ textarea {
     grid-template-columns: repeat(2, minmax(120px, 1fr));
   }
 
-  .content-grid,
-  .stats-grid {
+  .stats-grid,
+  .content-grid {
     grid-template-columns: 1fr;
   }
 
@@ -421,7 +415,6 @@ textarea {
   .sidebar,
   .topbar-actions,
   .nav,
-  .toolbars,
   .panel:not(.preview-panel) {
     display: none !important;
   }
